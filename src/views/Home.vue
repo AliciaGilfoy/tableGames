@@ -15,16 +15,61 @@
         <button @click="single=false, multi=true" class="btn btn-primary p-2 m-2">2-Player</button>
       </div>
     </div>
-    <div v-if="single==true" class="game-row row py-2">
-      <h4>Which game would you like to play?</h4>
-      <button class="col-6 btn btn-block btn-warning m-2">Rock, Paper, Scissors</button>
-      <button class="col-6 btn btn-block btn-warning m-2">Tic, Tac, Toe</button>
-      <button class="col-6 btn btn-block btn-warning m-2">Math</button>
+    <div v-if="single" class="game-row row py-2">
+      <form id="nameForm" @submit.prevent="setPlayerNames()" v-if="!nameEntered">
+        <div class="form-group">
+          <label class="h3" for="players">Your Name:</label>
+          <input
+            type="text"
+            class="form-control m-1"
+            name="player1"
+            placeholder="Enter your name..."
+            v-model="player1"
+          />
+          <button type="submit" class="btn btn-success btn-block m-1">Save</button>
+        </div>
+      </form>
+      <div v-if="nameEntered==true && single==true" class="game-row">
+        <h4>Which game would you like to play?</h4>
+        <button
+          @click="setActiveGame('RPS')"
+          class="col-6 btn btn-block btn-danger m-2"
+        >Rock, Paper, Scissors</button>
+        <button @click="setActiveGame('Snake')" class="col-6 btn btn-block btn-danger m-2">Snake</button>
+      </div>
     </div>
-    <div v-if="multi==true" class="game-row row py-2">
-      <h4>Which game would you like to play?</h4>
-      <button class="col-6 btn btn-block btn-warning m-2">Tic, Tac, Toe</button>
-      <button class="col-6 btn btn-block btn-warning m-2">Hang Man</button>
+    <div v-if="multi" class="game-row row py-2">
+      <form id="nameForm" @submit.prevent="setPlayerNames()" v-if="!nameEntered">
+        <div class="form-group">
+          <label class="h3" for="players">Player's Names:</label>
+          <input
+            type="text"
+            class="form-control m-1"
+            name="player1"
+            placeholder="Player 1 name..."
+            v-model="player1"
+          />
+          <input
+            type="text"
+            class="form-control m-1"
+            name="player2"
+            placeholder="Player 2 name..."
+            v-model="player2"
+          />
+          <button type="submit" class="btn btn-success btn-block m-1">Save</button>
+        </div>
+      </form>
+      <div v-if="nameEntered==true && multi==true" class="game-row">
+        <h4>Which game would you like to play?</h4>
+        <button
+          @click="setActiveGame('TTT')"
+          class="col-6 btn btn-block btn-danger m-2"
+        >Tic, Tac, Toe</button>
+        <button
+          @click="setActiveGame('Hangman')"
+          class="col-6 btn btn-block btn-danger m-2"
+        >Hang Man</button>
+      </div>
     </div>
   </div>
 </template>
@@ -35,8 +80,33 @@ export default {
   data() {
     return {
       single: false,
-      multi: false
+      multi: false,
+      player1: "",
+      player2: "",
+      nameEntered: false
     };
+  },
+  methods: {
+    setActiveGame(game) {
+      debugger;
+      this.$store.dispatch("setActiveGame", game);
+    },
+    setPlayerNames() {
+      let playerOne = {
+        name: this.player1,
+        score: 0
+      };
+      let playerTwo = {
+        name: this.player2,
+        score: 0
+      };
+      this.$store.dispatch("setPlayer1", playerOne);
+      if (playerTwo.name != "") {
+        this.$store.dispatch("setPlayer2", playerTwo);
+      }
+      $("#nameForm").remove();
+      this.nameEntered = true;
+    }
   }
 };
 </script>
@@ -55,5 +125,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-content: center;
+}
+.home {
+  height: 100vh;
 }
 </style>
