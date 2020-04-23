@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    activeGame: "",
+    activeGame: {},
     player1: {},
     player2: {},
 

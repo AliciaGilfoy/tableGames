@@ -1,45 +1,33 @@
 <template>
   <div class="home container bg-secondary">
     <div class="row header text-center py-2 border-bottom border-dark">
-      <img class="logo" alt="Game logo" src="../assets/logo.png" />
-      <h1 class="border border-dark m-2 p-2">
+      <h1 class="border border-dark m-2 p-2 bg-primary">
         Welcome to
         <br />
-        <span class="text-info">
+        <span class="text-white">
           <strong>Table Games</strong>
         </span>
       </h1>
-      <h4>Would you like to play single player games or 2 player games?</h4>
+      <h4 class="col-10 text-center py-2">
+        Single player games
+        <br />or 2 player games?
+      </h4>
       <div class="btn-row">
         <button @click="single=true, multi=false" class="btn btn-primary p-2 m-2">Single-Player</button>
         <button @click="single=false, multi=true" class="btn btn-primary p-2 m-2">2-Player</button>
       </div>
     </div>
-    <div v-if="single" class="game-row row py-2">
-      <form id="nameForm" @submit.prevent="setPlayerNames()" v-if="!nameEntered">
-        <div class="form-group">
-          <label class="h3" for="players">Your Name:</label>
-          <input
-            type="text"
-            class="form-control m-1"
-            name="player1"
-            placeholder="Enter your name..."
-            v-model="player1"
-          />
-          <button type="submit" class="btn btn-success btn-block m-1">Save</button>
-        </div>
-      </form>
-      <div v-if="nameEntered==true && single==true" class="game-row">
-        <h4>Which game would you like to play?</h4>
-        <button
-          @click="setActiveGame('RPS')"
-          class="col-6 btn btn-block btn-danger m-2"
-        >Rock, Paper, Scissors</button>
-        <button @click="setActiveGame('Snake')" class="col-6 btn btn-block btn-danger m-2">Snake</button>
-      </div>
+    <div v-if="multi" class="player-row row pt-5">
+      <h4 class="border border-warning p-2 m-1 col-5">Player 1: {{player1}}</h4>
+      <h4 class="border border-warning p-2 m-1 col-5">Player 2: {{player2}}</h4>
+      <button @click="editingName=true" class="btn btn-info btn-sm col-6">Edit Names</button>
     </div>
-    <div v-if="multi" class="game-row row py-2">
-      <form id="nameForm" @submit.prevent="setPlayerNames()" v-if="!nameEntered">
+    <div v-if="single" class="game-row row pt-5">
+      <h4 class="border border-warning p-2 m-1">Player 1: {{player1}}</h4>
+      <button @click="editingName=true" class="btn btn-info btn-sm">Edit Name</button>
+    </div>
+    <div v-if="multi==true && editingName==true" class="player-row row">
+      <form id="nameForm" @submit.prevent="setPlayerNames()">
         <div class="form-group">
           <label class="h3" for="players">Player's Names:</label>
           <input
@@ -59,17 +47,40 @@
           <button type="submit" class="btn btn-success btn-block m-1">Save</button>
         </div>
       </form>
-      <div v-if="nameEntered==true && multi==true" class="game-row">
-        <h4>Which game would you like to play?</h4>
-        <button
-          @click="setActiveGame('TTT')"
-          class="col-6 btn btn-block btn-danger m-2"
-        >Tic, Tac, Toe</button>
-        <button
-          @click="setActiveGame('Hangman')"
-          class="col-6 btn btn-block btn-danger m-2"
-        >Hang Man</button>
-      </div>
+    </div>
+    <div v-if="single==true && editingName==true" class="game-row row">
+      <form id="nameForm" @submit.prevent="setPlayerNames()">
+        <div class="form-group">
+          <label class="h3" for="players">Your Name:</label>
+          <input
+            type="text"
+            class="form-control m-1"
+            name="player1"
+            placeholder="Enter your name..."
+            v-model="player1"
+          />
+          <button type="submit" class="btn btn-success btn-block m-1">Save</button>
+        </div>
+      </form>
+    </div>
+    <div
+      v-if="single==true"
+      class="game-row row p-2 border border-primary bg-white m-1 text-center mt-5"
+    >
+      <h4 class="border-bottom border-dark pb-1">Pick a game to play!</h4>
+      <button
+        @click="setActiveGame('RPS')"
+        class="col-6 btn btn-block btn-danger m-2"
+      >Rock, Paper, Scissors</button>
+      <button @click="setActiveGame('Snake')" class="col-6 btn btn-block btn-danger m-2">Snake</button>
+    </div>
+    <div
+      v-if="multi==true"
+      class="game-row row p-2 border border-primary bg-white m-1 text-center mt-5"
+    >
+      <h4 class="border-bottom border-dark pb-1">Pick a game to play!</h4>
+      <button @click="setActiveGame('TTT')" class="col-6 btn btn-block btn-danger m-2">Tic, Tac, Toe</button>
+      <button @click="setActiveGame('Hangman')" class="col-6 btn btn-block btn-danger m-2">Hang Man</button>
     </div>
   </div>
 </template>
@@ -83,13 +94,17 @@ export default {
       multi: false,
       player1: "",
       player2: "",
-      nameEntered: false
+      editingName: false
     };
   },
   methods: {
-    setActiveGame(game) {
-      debugger;
+    setActiveGame(name) {
+      let game = {
+        name: name,
+        multiplayer: this.multi
+      };
       this.$store.dispatch("setActiveGame", game);
+      this.$router.push({ name: "Game" });
     },
     setPlayerNames() {
       let playerOne = {
@@ -105,7 +120,7 @@ export default {
         this.$store.dispatch("setPlayer2", playerTwo);
       }
       $("#nameForm").remove();
-      this.nameEntered = true;
+      this.editingName = false;
     }
   }
 };
@@ -129,5 +144,12 @@ export default {
 }
 .home {
   height: 100vh;
+}
+.player-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
 }
 </style>
