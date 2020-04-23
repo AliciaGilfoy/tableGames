@@ -1,11 +1,17 @@
 <template>
   <div class="container-fluid">
-    <div v-if="activeGame.multiplayer" class="player-row row pt-5">
-      <h4 class="border border-warning p-2 m-1 col-5">Player 1: {{player1.name}}</h4>
-      <h4 class="border border-warning p-2 m-1 col-5">Player 2: {{player2.name}}</h4>
+    <div v-if="activeGame.multiplayer" class="multi-player-row row">
+      <div class="border border-danger p-2 m-1 col-5 text-center">
+        <h4>Player 1: {{player1.name}}</h4>
+        <h5>Score: {{player1.score}}</h5>
+      </div>
+      <div class="border border-danger p-2 m-1 col-5 text-center">
+        <h4>Player 2: {{player2.name}}</h4>
+        <h5>Score: {{player2.score}}</h5>
+      </div>
     </div>
-    <div v-else class="game-row row pt-2">
-      <div class="border border-warning p-2 m-1 col-10 text-center">
+    <div v-else class="player-row row pt-2">
+      <div class="border border-danger p-2 m-1 col-10 text-center">
         <h4>Player 1: {{player1.name}}</h4>
         <h5>Score: {{player1.score}}</h5>
       </div>
@@ -31,10 +37,15 @@ export default {
 </script>
 
 <style scoped>
-.game-row {
+.player-row {
   display: flex;
   flex-direction: column;
   align-items: center;
   align-content: center;
+}
+.multi-player-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 </style>
