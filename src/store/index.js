@@ -19,6 +19,9 @@ export default new Vuex.Store({
     },
     setPlayer2(state, player) {
       state.player2 = player
+    },
+    updatePlayer1Score(state, score) {
+      state.player1.score = score
     }
   },
   actions: {
@@ -30,6 +33,9 @@ export default new Vuex.Store({
     },
     setPlayer2({ commit }, player) {
       commit("setPlayer2", player)
+    },
+    updatePlayer1Score({ commit }, score) {
+      commit("updatePlayer1Score", score)
     }
   },
 })

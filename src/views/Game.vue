@@ -16,10 +16,15 @@
         <h5>Score: {{player1.score}}</h5>
       </div>
     </div>
+    <div class="game-row">
+      <r-p-s v-if="activeGame.name == 'RockPaperScissors'" />
+    </div>
   </div>
 </template>
 
 <script>
+import RPS from "../components/RPS";
+
 export default {
   name: "Game",
   computed: {
@@ -32,6 +37,9 @@ export default {
     activeGame() {
       return this.$store.state.activeGame;
     }
+  },
+  components: {
+    RPS
   }
 };
 </script>

@@ -69,7 +69,7 @@
     >
       <h4 class="border-bottom border-dark pb-1">Pick a game to play!</h4>
       <button
-        @click="setActiveGame('RPS')"
+        @click="setActiveGame('RockPaperScissors')"
         class="col-6 btn btn-block btn-danger m-2"
       >Rock, Paper, Scissors</button>
       <button @click="setActiveGame('Snake')" class="col-6 btn btn-block btn-danger m-2">Snake</button>
@@ -79,8 +79,12 @@
       class="game-row row p-2 border border-primary bg-white m-1 text-center mt-5"
     >
       <h4 class="border-bottom border-dark pb-1">Pick a game to play!</h4>
-      <button @click="setActiveGame('TTT')" class="col-6 btn btn-block btn-danger m-2">Tic, Tac, Toe</button>
+      <button
+        @click="setActiveGame('TicTacToe')"
+        class="col-6 btn btn-block btn-danger m-2"
+      >Tic, Tac, Toe</button>
       <button @click="setActiveGame('Hangman')" class="col-6 btn btn-block btn-danger m-2">Hang Man</button>
+      <button @click="setActiveGame('Checkers')" class="col-6 btn btn-block btn-danger m-2">Checkers</button>
     </div>
   </div>
 </template>
