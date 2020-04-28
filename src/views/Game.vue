@@ -17,13 +17,15 @@
       </div>
     </div>
     <div class="game-row">
-      <r-p-s v-if="activeGame.name == 'RockPaperScissors'" />
+      <r-p-s v-if="activeGame.name === 'RockPaperScissors'" />
+      <snake v-else-if="activeGame.name === 'Snake'" />
     </div>
   </div>
 </template>
 
 <script>
 import RPS from "../components/RPS";
+import Snake from "../components/Snake";
 
 export default {
   name: "Game",
@@ -39,7 +41,8 @@ export default {
     }
   },
   components: {
-    RPS
+    RPS,
+    Snake
   }
 };
 </script>
