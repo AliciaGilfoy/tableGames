@@ -2,8 +2,8 @@
   <div class="row players-row">
     <div class="col-12 player-card">
       <div class="card player-one">
-        <div class="card-image-top">
-          <span :class="this.playerImage"></span>
+        <div class="card-img-top">
+          <div :class="this.playerImage"></div>
         </div>
         <div class="card-body text-center">
           <h5 class="card-title">Player One</h5>
@@ -38,7 +38,7 @@
     </div>
     <div class="col-12 player-card">
       <div class="card player-computer border-0">
-        <div class="card-image-top">
+        <div class="card-img-top">
           <div :class="this.compImage"></div>
         </div>
         <div class="card-body text-center">
@@ -79,66 +79,48 @@ export default {
       str1: ""
     };
   },
+  computed: {
+    score() {
+      return this.$store.state.player1.score;
+    }
+  },
   methods: {
     pickRandom() {
-      let playerOneChoice = this.choices[Math.floor(Math.random() * 3)].name;
-      this.playerPick = playerOneChoice;
+      this.playerPick = this.choices[Math.floor(Math.random() * 3)].name;
       this.playerImage = this.playerPick;
-      let computerPick = this.choices[Math.floor(Math.random() * 3)].name;
-      this.compImage = computerPick;
-      this.computerPick = computerPick;
+      this.computerPick = this.choices[Math.floor(Math.random() * 3)].name;
+      this.compImage = this.computerPick;
       this.drawWinner();
-      // drawWinner(playerPickStatusElem, computerPickStatusElem)
     },
     // after any player 1 button is clicked this makes the computer pick a random picture
     drawMatch() {
       this.playerImage = this.playerPick;
-      let computerPick = this.choices[Math.floor(Math.random() * 3)].name;
-      this.compImage = computerPick;
-      this.computerPick = computerPick;
+      this.computerPick = this.choices[Math.floor(Math.random() * 3)].name;
+      this.compImage = this.computerPick;
       this.drawWinner();
     },
 
     // this determines the winner
     drawWinner() {
-      let result = this.playerPick + "|" + this.computerPick;
-      switch (result) {
-        case "Rock|Rock":
-          this.matchResult = "Draw";
-          setTimeout(this.resetMatch, 3000);
-          break;
-        case "Rock|Paper":
+      if (this.playerPick === this.computerPick) {
+        this.matchResult = "Draw";
+        setTimeout(this.resetMatch, 2000);
+      } else {
+        let result = this.playerPick + "|" + this.computerPick;
+        let finalScore = this.score;
+        if (
+          result === "Rock|Paper" ||
+          result === "Paper|Scissors" ||
+          result === "Scissors|Rock"
+        ) {
           this.matchResult = "You Lose";
-          setTimeout(this.resetMatch, 3000);
-          break;
-        case "Rock|Scissors":
+          finalScore--;
+        } else {
           this.matchResult = "You Win";
-          setTimeout(this.resetMatch, 3000);
-          break;
-        case "Paper|Rock":
-          this.matchResult = "You Win";
-          setTimeout(this.resetMatch, 3000);
-          break;
-        case "Paper|Paper":
-          this.matchResult = "Draw";
-          setTimeout(this.resetMatch, 3000);
-          break;
-        case "Paper|Scissors":
-          this.matchResult = "You Lose";
-          setTimeout(this.resetMatch, 3000);
-          break;
-        case "Scissors|Rock":
-          this.matchResult = "You Lose";
-          setTimeout(this.resetMatch, 3000);
-          break;
-        case "Scissors|Paper":
-          this.matchResult = "You Win";
-          setTimeout(this.resetMatch, 3000);
-          break;
-        case "Scissors|Scissors":
-          this.matchResult = "Draw";
-          setTimeout(this.resetMatch, 3000);
-          break;
+          finalScore++;
+        }
+        this.$store.dispatch("updatePlayer1Score", finalScore);
+        setTimeout(this.resetMatch, 2000);
       }
     },
     // after clicking play again the game resets
@@ -230,9 +212,5 @@ export default {
   background-position: center;
   height: inherit;
   width: inherit;
-}
-
-#player-choice {
-  color: transparent;
 }
 </style>

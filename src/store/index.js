@@ -6,7 +6,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     activeGame: {},
-    player1: {},
+    player1: {
+      score: 0,
+    },
     player2: {},
 
   },
