@@ -16,7 +16,7 @@
         <h5>Score: {{player1.score}}</h5>
       </div>
     </div>
-    <div class="game-row">
+    <div class="game-row row">
       <r-p-s v-if="activeGame.name === 'RockPaperScissors'" />
       <snake v-else-if="activeGame.name === 'Snake'" />
       <hang-man v-else-if="activeGame.name === 'HangMan'" />
