@@ -86,6 +86,7 @@ export default {
         }
       }
     },
+    // I need to break the blankspaces into an array so I can replace the letters. I need to also set up a dictionary with the value being the index.
     guess(letter) {
       if (this.gameWord.includes(letter)) {
         let gameWord = this.gameWord;
