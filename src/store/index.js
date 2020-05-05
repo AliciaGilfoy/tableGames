@@ -5,11 +5,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    activePlayer: {},
     activeGame: {},
     player1: {
+      name: "Player1",
       score: 0,
     },
-    player2: {},
+    player2: {
+      name: "Player2",
+      score: 0,
+    },
 
   },
   mutations: {
@@ -24,6 +29,9 @@ export default new Vuex.Store({
     },
     updatePlayer1Score(state, score) {
       state.player1.score = score
+    },
+    setActivePlayer(state, player) {
+      state.activePlayer = player
     }
   },
   actions: {
@@ -38,6 +46,9 @@ export default new Vuex.Store({
     },
     updatePlayer1Score({ commit }, score) {
       commit("updatePlayer1Score", score)
+    },
+    setActivePlayer({ commit }, player) {
+      commit("setActivePlayer", player)
     }
   },
 })
