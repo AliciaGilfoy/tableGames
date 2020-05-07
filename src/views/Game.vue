@@ -20,6 +20,7 @@
       <r-p-s v-if="activeGame.name === 'RockPaperScissors'" />
       <snake v-else-if="activeGame.name === 'Snake'" />
       <hang-man v-else-if="activeGame.name === 'HangMan'" />
+      <tic-tac-toe v-else-if="activeGame.name === 'TicTacToe'" />
     </div>
   </div>
 </template>
@@ -28,6 +29,7 @@
 import RPS from "../components/RPS";
 import Snake from "../components/Snake";
 import HangMan from "../components/HangMan";
+import TicTacToe from "../components/TicTacToe";
 
 export default {
   name: "Game",
@@ -45,7 +47,8 @@ export default {
   components: {
     RPS,
     Snake,
-    HangMan
+    HangMan,
+    TicTacToe
   }
 };
 </script>
