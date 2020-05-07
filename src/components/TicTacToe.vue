@@ -2,14 +2,8 @@
   <div class="col-12 py-2">
     <div class="row p-2 m-2 text-center">
       <h2 class="col-12">
-        <span class="px-1">
-          {{Player1.name}}:
-          <i class="far fa-circle"></i>
-        </span>
-        <span class="px-1">
-          {{Player2.name}}:
-          <i class="fas fa-times"></i>
-        </span>
+        <span class="px-1 text-success">{{Player1.name}} is O</span>
+        <span class="px-1 text-danger">{{Player2.name}} is X</span>
       </h2>
     </div>
     <div class="row p-2 m-2 text-center">
@@ -17,38 +11,53 @@
         class="bg-success text-white p-1 border border-info col-12"
         v-if="activePlayer == 1"
       >{{Player1.name}}'s turn.</h2>
-      <h2
-        class="bg-success text-white p-1 border border-info col-12"
-        v-else
-      >{{Player2.name}}'s turn.</h2>
+      <h2 class="bg-danger text-white p-1 border border-info col-12" v-else>{{Player2.name}}'s turn.</h2>
     </div>
     <div class="row p-3 bg-primary">
       <div class="col-4 box p-1 border-right border-bottom border-dark">
-        <button @click="pickBox(1)" class="btn btn-primary btn-block h-100">{{this.box1}}</button>
+        <button @click="pickBox(1)" class="btn btn-primary btn-block h-100">
+          <span class="display-4">{{this.boxes.box1}}</span>
+        </button>
       </div>
       <div class="col-4 box p-1 border-left border-right border-bottom border-dark">
-        <button @click="pickBox(2)" class="btn btn-primary btn-block h-100">{{this.box2}}</button>
+        <button @click="pickBox(2)" class="btn btn-primary btn-block h-100">
+          <span class="display-4">{{this.boxes.box2}}</span>
+        </button>
       </div>
       <div class="col-4 box p-1 border-left border-bottom border-dark">
-        <button @click="pickBox(3)" class="btn btn-primary btn-block h-100">{{this.box3}}</button>
+        <button @click="pickBox(3)" class="btn btn-primary btn-block h-100">
+          <span class="display-4">{{this.boxes.box3}}</span>
+        </button>
       </div>
       <div class="col-4 box p-1 border-right border-bottom border-top border-dark">
-        <button @click="pickBox(4)" class="btn btn-primary btn-block h-100">{{this.box4}}</button>
+        <button @click="pickBox(4)" class="btn btn-primary btn-block h-100">
+          <span class="display-4">{{this.boxes.box4}}</span>
+        </button>
       </div>
       <div class="col-4 box p-1 border border-dark">
-        <button @click="pickBox(5)" class="btn btn-primary btn-block h-100">{{this.box5}}</button>
+        <button @click="pickBox(5)" class="btn btn-primary btn-block h-100">
+          <span class="display-4">{{this.boxes.box5}}</span>
+        </button>
       </div>
       <div class="col-4 box p-1 border-left border-top border-bottom border-dark">
-        <button @click="pickBox(6)" class="btn btn-primary btn-block h-100">{{this.box6}}</button>
+        <button @click="pickBox(6)" class="btn btn-primary btn-block h-100">
+          <span class="display-4">{{this.boxes.box6}}</span>
+        </button>
       </div>
       <div class="col-4 box p-1 border-right border-top border-dark">
-        <button @click="pickBox(7)" class="btn btn-primary btn-block h-100">{{this.box7}}</button>
+        <button @click="pickBox(7)" class="btn btn-primary btn-block h-100">
+          <span class="display-4">{{this.boxes.box7}}</span>
+        </button>
       </div>
       <div class="col-4 box p-1 border-right border-left border-top border-dark">
-        <button @click="pickBox(8)" class="btn btn-primary btn-block h-100">{{this.box8}}</button>
+        <button @click="pickBox(8)" class="btn btn-primary btn-block h-100">
+          <span class="display-4">{{this.boxes.box8}}</span>
+        </button>
       </div>
       <div class="col-4 box p-1 border-left border-top border-dark">
-        <button @click="pickBox(9)" class="btn btn-primary btn-block h-100">{{this.box9}}</button>
+        <button @click="pickBox(9)" class="btn btn-primary btn-block h-100">
+          <span class="display-4">{{this.boxes.box9}}</span>
+        </button>
       </div>
     </div>
     <div v-if="results == 'win'" class="row text-center bg-warning my-2 py-1">
@@ -81,15 +90,17 @@ export default {
       activePlayer: 1,
       winner: "",
       results: "",
-      box1: "",
-      box2: "",
-      box3: "",
-      box4: "",
-      box5: "",
-      box6: "",
-      box7: "",
-      box8: "",
-      box9: ""
+      boxes: {
+        box1: "",
+        box2: "",
+        box3: "",
+        box4: "",
+        box5: "",
+        box6: "",
+        box7: "",
+        box8: "",
+        box9: ""
+      }
     };
   },
   computed: {
@@ -116,60 +127,78 @@ export default {
     pickBox(num) {
       let symbol = "";
       if (this.activePlayer === 1) {
-        symbol = '<i class="far fa-circle"></i>';
+        symbol = "O";
         this.player1.push(num);
       } else {
-        symbol = '<i class="fas fa-times"></i>';
+        symbol = "X";
         this.player2.push(num);
       }
       this.emptyBoxes -= num;
       let box = "box" + num.toString();
-      console.log(box);
-
+      this.boxes[box] = symbol;
       this.checkForWin();
     },
     checkForWin() {
+      let places = [];
       if (this.activePlayer == 1) {
-        let places = this.player1.toString();
+        places = this.player1;
+        this.winner = this.Player1.name;
       } else {
-        let places = this.player2.toString();
+        places = this.player2;
+        this.winner = this.Player2.name;
       }
-      switch (places) {
-        case 123:
-          console.log("win");
-          break;
-        case 456:
-          console.log("win");
-          break;
-        case 789:
-          console.log("win");
-          break;
-        case 147:
-          console.log("win");
-          break;
-        case 258:
-          console.log("win");
-          break;
-        case 369:
-          console.log("win");
-          break;
-        case 159:
-          console.log("win");
-          break;
-        case 357:
-          console.log("win");
-          break;
-        default:
-          if (this.emptyBoxes == 0) {
-            this.results == "draw";
-          } else {
-            if (this.activePlayer == 1) {
-              this.activePlayer == 2;
-            } else {
-              this.activePlayer == 1;
-            }
-          }
-          break;
+      if (places.includes(1) && places.includes(2) && places.includes(3)) {
+        this.results = "win";
+      } else if (
+        places.includes(4) &&
+        places.includes(5) &&
+        places.includes(6)
+      ) {
+        this.results = "win";
+      } else if (
+        places.includes(7) &&
+        places.includes(8) &&
+        places.includes(9)
+      ) {
+        this.results = "win";
+      } else if (
+        places.includes(1) &&
+        places.includes(4) &&
+        places.includes(7)
+      ) {
+        this.results = "win";
+      } else if (
+        places.includes(2) &&
+        places.includes(5) &&
+        places.includes(8)
+      ) {
+        this.results = "win";
+      } else if (
+        places.includes(3) &&
+        places.includes(6) &&
+        places.includes(9)
+      ) {
+        this.results = "win";
+      } else if (
+        places.includes(1) &&
+        places.includes(5) &&
+        places.includes(9)
+      ) {
+        this.results = "win";
+      } else if (
+        places.includes(3) &&
+        places.includes(5) &&
+        places.includes(7)
+      ) {
+        this.results = "win";
+      } else if (this.emptyBoxes == 0) {
+        this.results == "draw";
+      } else {
+        if (this.activePlayer == 1) {
+          this.activePlayer = 2;
+        } else {
+          this.activePlayer = 1;
+        }
       }
     }
   }
