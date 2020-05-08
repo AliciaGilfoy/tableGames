@@ -202,12 +202,6 @@ export default {
         this.$store.dispatch("updatePlayer2Score", points);
       }
     },
-    stillPlaying() {
-      if (this.emptyBoxes === 0) {
-        this.results = "draw";
-        this.disableBox();
-      }
-    },
     checkForWin() {
       let places = [];
       if (this.activePlayer == 1) {
@@ -277,13 +271,15 @@ export default {
         this.results = "win";
         this.disableBox();
         this.addPoints();
+      } else if (this.emptyBoxes === 0) {
+        this.results = "draw";
+        this.disableBox();
       } else {
         if (this.activePlayer == 1) {
           this.activePlayer = 2;
         } else {
           this.activePlayer = 1;
         }
-        this.stillPlaying();
       }
     }
   }
