@@ -15,48 +15,84 @@
     </div>
     <div class="row p-3 bg-primary">
       <div class="col-4 box p-1 border-right border-bottom border-dark">
-        <button @click="pickBox(1)" class="btn btn-primary btn-block h-100">
-          <span class="display-4">{{this.boxes.box1}}</span>
+        <button
+          @click="pickBox(1)"
+          :disabled="this.boxes.box1.isDisabled"
+          class="btn btn-primary btn-block h-100"
+        >
+          <span class="display-4">{{this.boxes.box1.mark}}</span>
         </button>
       </div>
       <div class="col-4 box p-1 border-left border-right border-bottom border-dark">
-        <button @click="pickBox(2)" class="btn btn-primary btn-block h-100">
-          <span class="display-4">{{this.boxes.box2}}</span>
+        <button
+          @click="pickBox(2)"
+          :disabled="this.boxes.box2.isDisabled"
+          class="btn btn-primary btn-block h-100"
+        >
+          <span class="display-4">{{this.boxes.box2.mark}}</span>
         </button>
       </div>
       <div class="col-4 box p-1 border-left border-bottom border-dark">
-        <button @click="pickBox(3)" class="btn btn-primary btn-block h-100">
-          <span class="display-4">{{this.boxes.box3}}</span>
+        <button
+          @click="pickBox(3)"
+          :disabled="this.boxes.box3.isDisabled"
+          class="btn btn-primary btn-block h-100"
+        >
+          <span class="display-4">{{this.boxes.box3.mark}}</span>
         </button>
       </div>
       <div class="col-4 box p-1 border-right border-bottom border-top border-dark">
-        <button @click="pickBox(4)" class="btn btn-primary btn-block h-100">
-          <span class="display-4">{{this.boxes.box4}}</span>
+        <button
+          @click="pickBox(4)"
+          :disabled="this.boxes.box4.isDisabled"
+          class="btn btn-primary btn-block h-100"
+        >
+          <span class="display-4">{{this.boxes.box4.mark}}</span>
         </button>
       </div>
       <div class="col-4 box p-1 border border-dark">
-        <button @click="pickBox(5)" class="btn btn-primary btn-block h-100">
-          <span class="display-4">{{this.boxes.box5}}</span>
+        <button
+          @click="pickBox(5)"
+          :disabled="this.boxes.box5.isDisabled"
+          class="btn btn-primary btn-block h-100"
+        >
+          <span class="display-4">{{this.boxes.box5.mark}}</span>
         </button>
       </div>
       <div class="col-4 box p-1 border-left border-top border-bottom border-dark">
-        <button @click="pickBox(6)" class="btn btn-primary btn-block h-100">
-          <span class="display-4">{{this.boxes.box6}}</span>
+        <button
+          @click="pickBox(6)"
+          :disabled="this.boxes.box6.isDisabled"
+          class="btn btn-primary btn-block h-100"
+        >
+          <span class="display-4">{{this.boxes.box6.mark}}</span>
         </button>
       </div>
       <div class="col-4 box p-1 border-right border-top border-dark">
-        <button @click="pickBox(7)" class="btn btn-primary btn-block h-100">
-          <span class="display-4">{{this.boxes.box7}}</span>
+        <button
+          @click="pickBox(7)"
+          :disabled="this.boxes.box7.isDisabled"
+          class="btn btn-primary btn-block h-100"
+        >
+          <span class="display-4">{{this.boxes.box7.mark}}</span>
         </button>
       </div>
       <div class="col-4 box p-1 border-right border-left border-top border-dark">
-        <button @click="pickBox(8)" class="btn btn-primary btn-block h-100">
-          <span class="display-4">{{this.boxes.box8}}</span>
+        <button
+          @click="pickBox(8)"
+          :disabled="this.boxes.box8.isDisabled"
+          class="btn btn-primary btn-block h-100"
+        >
+          <span class="display-4">{{this.boxes.box8.mark}}</span>
         </button>
       </div>
       <div class="col-4 box p-1 border-left border-top border-dark">
-        <button @click="pickBox(9)" class="btn btn-primary btn-block h-100">
-          <span class="display-4">{{this.boxes.box9}}</span>
+        <button
+          @click="pickBox(9)"
+          :disabled="this.boxes.box9.isDisabled"
+          class="btn btn-primary btn-block h-100"
+        >
+          <span class="display-4">{{this.boxes.box9.mark}}</span>
         </button>
       </div>
     </div>
@@ -91,16 +127,17 @@ export default {
       winner: "",
       results: "",
       boxes: {
-        box1: "",
-        box2: "",
-        box3: "",
-        box4: "",
-        box5: "",
-        box6: "",
-        box7: "",
-        box8: "",
-        box9: ""
-      }
+        box1: { mark: "", isDisabled: false },
+        box2: { mark: "", isDisabled: false },
+        box3: { mark: "", isDisabled: false },
+        box4: { mark: "", isDisabled: false },
+        box5: { mark: "", isDisabled: false },
+        box6: { mark: "", isDisabled: false },
+        box7: { mark: "", isDisabled: false },
+        box8: { mark: "", isDisabled: false },
+        box9: { mark: "", isDisabled: false }
+      },
+      isDisabled: false
     };
   },
   computed: {
@@ -118,6 +155,17 @@ export default {
       this.player2 = [];
       this.winner = "";
       this.results = "";
+      this.boxes = {
+        box1: { mark: "", isDisabled: false },
+        box2: { mark: "", isDisabled: false },
+        box3: { mark: "", isDisabled: false },
+        box4: { mark: "", isDisabled: false },
+        box5: { mark: "", isDisabled: false },
+        box6: { mark: "", isDisabled: false },
+        box7: { mark: "", isDisabled: false },
+        box8: { mark: "", isDisabled: false },
+        box9: { mark: "", isDisabled: false }
+      };
       if (this.winner === this.Player1.name) {
         this.activePlayer = 1;
       } else {
@@ -135,8 +183,30 @@ export default {
       }
       this.emptyBoxes -= num;
       let box = "box" + num.toString();
-      this.boxes[box] = symbol;
+      this.boxes[box].mark = symbol;
+      this.boxes[box].isDisabled = true;
       this.checkForWin();
+    },
+    disableBox() {
+      for (let i = 1; i < 10; i++) {
+        let box = "box" + i.toString();
+        this.boxes[box].isDisabled = true;
+      }
+    },
+    addPoints() {
+      if (this.activePlayer == 1) {
+        let points = this.Player1.score + 1;
+        this.$store.dispatch("updatePlayer1Score", points);
+      } else {
+        let points = this.Player2.score + 1;
+        this.$store.dispatch("updatePlayer2Score", points);
+      }
+    },
+    stillPlaying() {
+      if (this.emptyBoxes === 0) {
+        this.results = "draw";
+        this.disableBox();
+      }
     },
     checkForWin() {
       let places = [];
@@ -149,56 +219,71 @@ export default {
       }
       if (places.includes(1) && places.includes(2) && places.includes(3)) {
         this.results = "win";
+        this.disableBox();
+        this.addPoints();
       } else if (
         places.includes(4) &&
         places.includes(5) &&
         places.includes(6)
       ) {
         this.results = "win";
+        this.disableBox();
+        this.addPoints();
       } else if (
         places.includes(7) &&
         places.includes(8) &&
         places.includes(9)
       ) {
         this.results = "win";
+        this.disableBox();
+        this.addPoints();
       } else if (
         places.includes(1) &&
         places.includes(4) &&
         places.includes(7)
       ) {
         this.results = "win";
+        this.disableBox();
+        this.addPoints();
       } else if (
         places.includes(2) &&
         places.includes(5) &&
         places.includes(8)
       ) {
         this.results = "win";
+        this.disableBox();
+        this.addPoints();
       } else if (
         places.includes(3) &&
         places.includes(6) &&
         places.includes(9)
       ) {
         this.results = "win";
+        this.disableBox();
+        this.addPoints();
       } else if (
         places.includes(1) &&
         places.includes(5) &&
         places.includes(9)
       ) {
         this.results = "win";
+        this.disableBox();
+        this.addPoints();
       } else if (
         places.includes(3) &&
         places.includes(5) &&
         places.includes(7)
       ) {
         this.results = "win";
-      } else if (this.emptyBoxes == 0) {
-        this.results == "draw";
+        this.disableBox();
+        this.addPoints();
       } else {
         if (this.activePlayer == 1) {
           this.activePlayer = 2;
         } else {
           this.activePlayer = 1;
         }
+        this.stillPlaying();
       }
     }
   }
