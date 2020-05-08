@@ -84,7 +84,6 @@
         class="col-6 btn btn-block btn-danger m-2"
       >Tic, Tac, Toe</button>
       <button @click="setActiveGame('HangMan')" class="col-6 btn btn-block btn-danger m-2">Hang Man</button>
-      <button @click="setActiveGame('Checkers')" class="col-6 btn btn-block btn-danger m-2">Checkers</button>
     </div>
   </div>
 </template>
